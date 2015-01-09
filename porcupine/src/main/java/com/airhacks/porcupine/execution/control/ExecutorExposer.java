@@ -12,9 +12,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
-import javax.ejb.Singleton;
 import javax.enterprise.concurrent.ManagedThreadFactory;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -23,14 +22,14 @@ import javax.inject.Inject;
  *
  * @author airhacks.com
  */
-@Singleton
+@ApplicationScoped
 public class ExecutorExposer {
 
     private ThreadPoolExecutor threadPoolExecutor = null;
     private BlockingQueue<Runnable> queue;
     private AtomicLong rejectedTasks;
 
-    @Resource
+    @Inject
     ManagedThreadFactory threadFactory;
 
     private final int CORE_POOL_SIZE = 1;
