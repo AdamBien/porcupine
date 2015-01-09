@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Statistics {
 
+    private String pipelineName;
     private int remainingQueueCapacity;
     private long completedTaskCount;
     private int activeThreadCount;
@@ -23,7 +24,8 @@ public class Statistics {
     private int maximumPoolSize;
     private long rejectedTasks;
 
-    public Statistics(int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, long rejectedTasks) {
+    public Statistics(String pipelineName, int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, long rejectedTasks) {
+        this.pipelineName = pipelineName;
         this.remainingQueueCapacity = remainingQueueCapacity;
         this.completedTaskCount = completedTaskCount;
         this.activeThreadCount = activeThreadCount;
@@ -68,4 +70,9 @@ public class Statistics {
     public long getRejectedTasks() {
         return rejectedTasks;
     }
+
+    public String getPipelineName() {
+        return pipelineName;
+    }
+
 }

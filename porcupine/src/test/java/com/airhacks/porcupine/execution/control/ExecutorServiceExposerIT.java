@@ -33,17 +33,17 @@ import org.junit.runner.RunWith;
  * @author airhacks.com
  */
 @RunWith(Arquillian.class)
-public class ExecutorExposerIT {
+public class ExecutorServiceExposerIT {
 
     @Inject
-    ExecutorInjectionTarget testSupport;
+    ExecutoServiceInjectionTarget testSupport;
 
     @Deployment
     public static Archive create() {
         return ShrinkWrap.create(WebArchive.class).
                 addClasses(ManagedThreadFactoryExposerMock.class,
-                        ExecutorInjectionTarget.class,
-                        ExecutorExposer.class,
+                        ExecutoServiceInjectionTarget.class,
+                        ExecutorServiceExposer.class,
                         Managed.class).
                 addAsManifestResource(new File("target/classes/META-INF/beans.xml"), "beans.xml");
     }

@@ -18,12 +18,18 @@ import javax.inject.Qualifier;
 public @interface Managed {
 
     @Nonbinding
-    int corePoolSize() default 1;
+    int corePoolSize() default 2;
 
     @Nonbinding
-    int maxPoolSize() default 2;
+    int maxPoolSize() default 4;
 
     @Nonbinding
     int keepAliveTime() default 1;
+
+    @Nonbinding
+    int queueCapacity() default 10;
+
+    @Nonbinding
+    String pipelineName() default "default";
 
 }
