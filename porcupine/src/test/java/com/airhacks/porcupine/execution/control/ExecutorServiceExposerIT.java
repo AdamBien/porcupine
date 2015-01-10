@@ -17,6 +17,8 @@ package com.airhacks.porcupine.execution.control;
 
 import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_FIRST;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_SECOND;
+import static com.airhacks.porcupine.execution.control.ExecutorServiceInjectionTarget.FIRST;
+import static com.airhacks.porcupine.execution.control.ExecutorServiceInjectionTarget.SECOND;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.io.File;
@@ -68,6 +70,17 @@ public class ExecutorServiceExposerIT {
         Executor second = this.testSupport.getSecond();
         assertNotNull(first);
         assertNotSame(first, second);
+    }
+
+    @Test
+    public void statisticsForDefaultPipelineAreAvailable() {
+        Statistics firstStatistics = this.testSupport.getFirstStatistics();
+        assertNotNull(firstStatistics);
+        assertThat(firstStatistics.getPipelineName(), is(FIRST));
+
+        Statistics secondStatistics = this.testSupport.getSecondStatistics();
+        assertNotNull(secondStatistics);
+        assertThat(secondStatistics.getPipelineName(), is(SECOND));
     }
 
     @Test

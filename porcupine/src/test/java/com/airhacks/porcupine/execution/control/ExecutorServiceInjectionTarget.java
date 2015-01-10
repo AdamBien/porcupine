@@ -15,8 +15,10 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 /**
@@ -25,6 +27,8 @@ import javax.inject.Inject;
  */
 public class ExecutorServiceInjectionTarget {
 
+    public final static String FIRST = "first";
+    public final static String SECOND = "second";
     @Inject
     @Managed
     private ExecutorService first;
@@ -33,12 +37,28 @@ public class ExecutorServiceInjectionTarget {
     @Managed
     private ExecutorService second;
 
+    @Inject
+    @Dedicated(FIRST)
+    private Instance<Statistics> firstStatistics;
+
+    @Inject
+    @Dedicated(SECOND)
+    private Instance<Statistics> secondStatistics;
+
     public Executor getFirst() {
         return first;
     }
 
     public Executor getSecond() {
         return second;
+    }
+
+    public Statistics getFirstStatistics() {
+        return this.firstStatistics.get();
+    }
+
+    public Statistics getSecondStatistics() {
+        return this.secondStatistics.get();
     }
 
 }
