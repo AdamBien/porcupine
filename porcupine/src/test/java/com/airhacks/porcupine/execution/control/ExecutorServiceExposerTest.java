@@ -73,6 +73,14 @@ public class ExecutorServiceExposerTest {
     }
 
     @Test
+    public void numberOfPipelines() {
+        int numberOfPipelines = this.ps.getNumberOfPipelines();
+        //2 default pipelines in ExecutorServiceInjectionTarget and 2
+        // custom pipelines in ExecutorServiceDedicatedInjectionTarget
+        assertThat(numberOfPipelines, is(4));
+    }
+
+    @Test
     public void statisticsForDefaultPipelineAreAvailable() {
         Statistics firstStatistics = this.testSupport.getFirstStatistics();
         assertNotNull(firstStatistics);

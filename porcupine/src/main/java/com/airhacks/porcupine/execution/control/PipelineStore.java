@@ -58,4 +58,8 @@ public class PipelineStore {
         }
     }
 
+    public int getNumberOfPipelines() {
+        return this.pipelines.size();
+    }
+
 }
