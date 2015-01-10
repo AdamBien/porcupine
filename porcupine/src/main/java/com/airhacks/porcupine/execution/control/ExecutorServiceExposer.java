@@ -75,16 +75,7 @@ public class ExecutorServiceExposer {
     @Produces
     public Statistics exposeStatistics(InjectionPoint ip) {
         String name = ip.getMember().getName();
-        return getStatistics(name);
-    }
-
-    public Statistics getStatistics(String name) {
-        Pipeline pipeline = this.ps.get(name);
-        if (pipeline != null) {
-            return pipeline.getStatistics();
-        } else {
-            return new Statistics();
-        }
+        return this.ps.getStatistics(name);
     }
 
     @PreDestroy

@@ -16,6 +16,7 @@
 package com.airhacks.porcupine.execution.control;
 
 import com.airhacks.porcupine.execution.entity.Pipeline;
+import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
@@ -46,6 +47,15 @@ public class PipelineStore {
     public Collection<Pipeline> pipelines() {
         return this.pipelines.values();
 
+    }
+
+    public Statistics getStatistics(String name) {
+        Pipeline pipeline = this.pipelines.get(name);
+        if (pipeline != null) {
+            return pipeline.getStatistics();
+        } else {
+            return new Statistics();
+        }
     }
 
 }
