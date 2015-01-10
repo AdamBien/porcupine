@@ -40,19 +40,15 @@ public class ExecutorServiceExposer {
 
     @Produces
     @Managed
-    public ExecutorService exposeExecutorService(InjectionPoint ip) {
-        String fieldName = ip.getMember().getName();
+    ExecutorService exposeExecutorService(InjectionPoint ip) {
         Annotated annotated = ip.getAnnotated();
         Managed annotation = annotated.getAnnotation(Managed.class);
-        return createFromAnnotation(fieldName, annotation);
-    }
 
-    ExecutorService createFromAnnotation(String fieldName, Managed annotation) {
         int corePoolSize = annotation.corePoolSize();
         int keepAliveTime = annotation.keepAliveTime();
         int maxPoolSize = annotation.maxPoolSize();
         int queueCapacity = annotation.queueCapacity();
-        String pipelineName = calculateName(fieldName, annotation);
+        String pipelineName = getPipelineName(ip);
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(queueCapacity);
         RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
@@ -63,19 +59,22 @@ public class ExecutorServiceExposer {
         return threadPoolExecutor;
     }
 
-    String calculateName(String fieldName, Managed annotation) {
-        final String nameFromAnnotation = annotation.pipelineName();
-        if (Managed.UNSET.equalsIgnoreCase(nameFromAnnotation)) {
-            return fieldName;
-        } else {
-            return nameFromAnnotation;
-        }
-    }
-
     @Produces
     public Statistics exposeStatistics(InjectionPoint ip) {
-        String name = ip.getMember().getName();
+        String name = getPipelineName(ip);
         return this.ps.getStatistics(name);
+    }
+
+    String getPipelineName(InjectionPoint ip) {
+        Annotated annotated = ip.getAnnotated();
+        Dedicated dedicated = annotated.getAnnotation(Dedicated.class);
+        String name;
+        if (dedicated != null) {
+            name = dedicated.value();
+        } else {
+            name = ip.getMember().getName();
+        }
+        return name;
     }
 
     @PreDestroy
