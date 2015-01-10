@@ -17,6 +17,8 @@ import javax.inject.Qualifier;
 @Target({METHOD, FIELD})
 public @interface Managed {
 
+    public static final String UNSET = "-";
+
     @Nonbinding
     int corePoolSize() default 2;
 
@@ -30,6 +32,5 @@ public @interface Managed {
     int queueCapacity() default 10;
 
     @Nonbinding
-    String pipelineName() default "default";
-
+    String pipelineName() default "-";
 }

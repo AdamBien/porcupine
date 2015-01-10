@@ -5,15 +5,12 @@ import com.airhacks.porcupine.execution.entity.Rejection;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.concurrent.ManagedThreadFactory;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.Annotated;
@@ -24,7 +21,6 @@ import javax.inject.Inject;
  *
  * @author airhacks.com
  */
-@ApplicationScoped
 public class ExecutorServiceExposer {
 
     @Inject
@@ -33,12 +29,8 @@ public class ExecutorServiceExposer {
     @Inject
     Event<Rejection> rejections;
 
-    ConcurrentHashMap<String, Pipeline> pipelines;
-
-    @PostConstruct
-    public void init() {
-        this.pipelines = new ConcurrentHashMap<>();
-    }
+    @Inject
+    PipelineStore ps;
 
     public void onRejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         Pipeline pipeline = findPipeline(executor);
@@ -48,47 +40,60 @@ public class ExecutorServiceExposer {
 
     @Produces
     @Managed
-    public ExecutorService expose(InjectionPoint ip) {
+    public ExecutorService exposeExecutorService(InjectionPoint ip) {
+        String fieldName = ip.getMember().getName();
         Annotated annotated = ip.getAnnotated();
         Managed annotation = annotated.getAnnotation(Managed.class);
-        return createFromAnnotation(annotation);
+        return createFromAnnotation(fieldName, annotation);
     }
 
-    ExecutorService createFromAnnotation(Managed annotation) {
+    ExecutorService createFromAnnotation(String fieldName, Managed annotation) {
         int corePoolSize = annotation.corePoolSize();
         int keepAliveTime = annotation.keepAliveTime();
         int maxPoolSize = annotation.maxPoolSize();
         int queueCapacity = annotation.queueCapacity();
-        String pipelineName = annotation.pipelineName();
+        String pipelineName = calculateName(fieldName, annotation);
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(queueCapacity);
         RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 corePoolSize, maxPoolSize, keepAliveTime,
                 TimeUnit.SECONDS, queue, threadFactory,
                 rejectedExecutionHandler);
-        this.pipelines.putIfAbsent(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
+        this.ps.putIfAbsent(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
     }
 
+    String calculateName(String fieldName, Managed annotation) {
+        final String nameFromAnnotation = annotation.pipelineName();
+        if (Managed.UNSET.equalsIgnoreCase(nameFromAnnotation)) {
+            return fieldName;
+        } else {
+            return nameFromAnnotation;
+        }
+    }
+
     @Produces
-    public Statistics getStatistics(InjectionPoint ip) {
+    public Statistics exposeStatistics(InjectionPoint ip) {
         String name = ip.getMember().getName();
-        Pipeline pipeline = this.pipelines.get(name);
+        return getStatistics(name);
+    }
+
+    public Statistics getStatistics(String name) {
+        Pipeline pipeline = this.ps.get(name);
         if (pipeline != null) {
             return pipeline.getStatistics();
         } else {
             return new Statistics();
         }
-
     }
 
     @PreDestroy
     public void shutdown() {
-        this.pipelines.values().parallelStream().forEach(p -> p.shutdown());
+        this.ps.pipelines().parallelStream().forEach(p -> p.shutdown());
     }
 
     Pipeline findPipeline(ThreadPoolExecutor executor) {
-        return this.pipelines.values().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
+        return this.ps.pipelines().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
     }
 
 }

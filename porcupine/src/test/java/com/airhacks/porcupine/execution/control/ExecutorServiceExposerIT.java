@@ -15,6 +15,7 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import com.airhacks.porcupine.execution.entity.Pipeline;
 import java.io.File;
 import java.util.concurrent.Executor;
 import javax.inject.Inject;
@@ -38,12 +39,16 @@ public class ExecutorServiceExposerIT {
     @Inject
     ExecutoServiceInjectionTarget testSupport;
 
+    @Inject
+    PipelineStore ps;
+
     @Deployment
     public static Archive create() {
         return ShrinkWrap.create(WebArchive.class).
                 addClasses(ManagedThreadFactoryExposerMock.class,
                         ExecutoServiceInjectionTarget.class,
                         ExecutorServiceExposer.class,
+                        PipelineStore.class,
                         Managed.class).
                 addAsManifestResource(new File("target/classes/META-INF/beans.xml"), "beans.xml");
     }
@@ -54,6 +59,13 @@ public class ExecutorServiceExposerIT {
         Executor second = this.testSupport.getSecond();
         assertNotNull(first);
         assertNotSame(first, second);
+    }
+
+    @Test
+    public void statisticsAreAvailable() {
+        Pipeline first = ps.get("first");
+        assertNotNull(first);
+        assertNotNull(first.getStatistics());
     }
 
 }

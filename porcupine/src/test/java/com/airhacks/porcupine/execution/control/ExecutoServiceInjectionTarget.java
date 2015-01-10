@@ -16,6 +16,7 @@
 package com.airhacks.porcupine.execution.control;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import javax.inject.Inject;
 
 /**
@@ -26,11 +27,11 @@ public class ExecutoServiceInjectionTarget {
 
     @Inject
     @Managed
-    private Executor first;
+    private ExecutorService first;
 
     @Inject
     @Managed
-    private Executor second;
+    private ExecutorService second;
 
     public Executor getFirst() {
         return first;
