@@ -22,6 +22,7 @@ import static com.airhacks.porcupine.execution.control.ExecutorServiceInjectionT
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.Executor;
 import javax.inject.Inject;
 import static org.hamcrest.CoreMatchers.is;
@@ -78,6 +79,15 @@ public class ExecutorServiceExposerTest {
         //2 default pipelines in ExecutorServiceInjectionTarget and 2
         // custom pipelines in ExecutorServiceDedicatedInjectionTarget
         assertThat(numberOfPipelines, is(4));
+    }
+
+    @Test
+    public void numberOfStatistics() {
+        List<Statistics> allStatistics = this.ps.getAllStatistics();
+        //2 default pipelines in ExecutorServiceInjectionTarget and 2
+        // custom pipelines in ExecutorServiceDedicatedInjectionTarget
+        assertNotNull(allStatistics);
+        assertThat(allStatistics.size(), is(4));
     }
 
     @Test

@@ -18,7 +18,9 @@ package com.airhacks.porcupine.execution.control;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
@@ -60,6 +62,12 @@ public class PipelineStore {
 
     public int getNumberOfPipelines() {
         return this.pipelines.size();
+    }
+
+    public List<Statistics> getAllStatistics() {
+        return this.pipelines.values().stream().
+                map(p -> p.getStatistics()).
+                collect(Collectors.toList());
     }
 
 }
