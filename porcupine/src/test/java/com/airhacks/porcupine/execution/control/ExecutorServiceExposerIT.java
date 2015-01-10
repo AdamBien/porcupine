@@ -15,10 +15,14 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_FIRST;
+import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_SECOND;
 import com.airhacks.porcupine.execution.entity.Pipeline;
+import com.airhacks.porcupine.execution.entity.Statistics;
 import java.io.File;
 import java.util.concurrent.Executor;
 import javax.inject.Inject;
+import static org.hamcrest.CoreMatchers.is;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -26,6 +30,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -37,7 +42,10 @@ import org.junit.runner.RunWith;
 public class ExecutorServiceExposerIT {
 
     @Inject
-    ExecutoServiceInjectionTarget testSupport;
+    ExecutorServiceInjectionTarget testSupport;
+
+    @Inject
+    ExecutorServiceDedicatedInjectionTarget dedicatedInjectionTarget;
 
     @Inject
     PipelineStore ps;
@@ -46,7 +54,8 @@ public class ExecutorServiceExposerIT {
     public static Archive create() {
         return ShrinkWrap.create(WebArchive.class).
                 addClasses(ManagedThreadFactoryExposerMock.class,
-                        ExecutoServiceInjectionTarget.class,
+                        ExecutorServiceInjectionTarget.class,
+                        ExecutorServiceDedicatedInjectionTarget.class,
                         ExecutorServiceExposer.class,
                         PipelineStore.class,
                         Managed.class).
@@ -66,6 +75,25 @@ public class ExecutorServiceExposerIT {
         Pipeline first = ps.get("first");
         assertNotNull(first);
         assertNotNull(first.getStatistics());
+    }
+
+    @Test
+    public void injectionOfDedicatedPipelines() {
+        Executor first = this.dedicatedInjectionTarget.getFirst();
+        assertNotNull(first);
+        Statistics firstStatistics = this.dedicatedInjectionTarget.getFirstStatistics();
+        assertNotNull(firstStatistics);
+        String pipelineName = firstStatistics.getPipelineName();
+        assertNotNull(pipelineName);
+        assertThat(pipelineName, is(CUSTOM_FIRST));
+
+        Executor second = this.dedicatedInjectionTarget.getSecond();
+        assertNotNull(second);
+        Statistics secondStatistics = this.dedicatedInjectionTarget.getSecondStatistics();
+        assertNotNull(secondStatistics);
+        pipelineName = secondStatistics.getPipelineName();
+        assertNotNull(pipelineName);
+        assertThat(pipelineName, is(CUSTOM_SECOND));
     }
 
 }

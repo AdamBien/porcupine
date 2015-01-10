@@ -23,7 +23,7 @@ import javax.inject.Inject;
  *
  * @author airhacks.com
  */
-public class ExecutoServiceInjectionTarget {
+public class ExecutorServiceInjectionTarget {
 
     @Inject
     @Managed
