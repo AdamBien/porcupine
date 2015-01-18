@@ -7,10 +7,10 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PreDestroy;
-import javax.enterprise.concurrent.ManagedThreadFactory;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.Annotated;
@@ -24,7 +24,7 @@ import javax.inject.Inject;
 public class ExecutorServiceExposer {
 
     @Inject
-    ManagedThreadFactory threadFactory;
+    ThreadFactory threadFactory;
 
     @Inject
     Event<Rejection> rejections;
