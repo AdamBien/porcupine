@@ -11,6 +11,11 @@ import javax.inject.Qualifier;
 /**
  *
  * @author airhacks.com
+ *
+ *
+ * See
+ * <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html">ThreadPoolExecutor</a>
+ *
  */
 @Qualifier
 @Retention(RUNTIME)
@@ -20,11 +25,16 @@ public @interface Managed {
     public static final String UNSET = "-";
 
     @Nonbinding
-    int corePoolSize() default 2;
+    int corePoolSize() default 4;
 
     @Nonbinding
-    int maxPoolSize() default 4;
+    int maxPoolSize() default 10;
 
+    /**
+     *
+     * @return the keep alive time in seconds.
+     *
+     */
     @Nonbinding
     int keepAliveTime() default 1;
 
