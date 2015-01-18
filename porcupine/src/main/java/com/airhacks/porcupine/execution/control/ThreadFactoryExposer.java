@@ -33,5 +33,4 @@ public class ThreadFactoryExposer {
     public ThreadFactory expose() {
         return this.threadFactory;
     }
-
 }
