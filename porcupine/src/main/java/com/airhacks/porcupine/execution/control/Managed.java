@@ -40,7 +40,4 @@ public @interface Managed {
 
     @Nonbinding
     int queueCapacity() default 10;
-
-    @Nonbinding
-    String pipelineName() default "-";
 }
