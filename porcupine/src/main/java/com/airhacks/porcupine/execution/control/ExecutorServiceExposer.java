@@ -1,5 +1,6 @@
 package com.airhacks.porcupine.execution.control;
 
+import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Rejection;
 import com.airhacks.porcupine.execution.entity.Statistics;
@@ -32,6 +33,9 @@ public class ExecutorServiceExposer {
     @Inject
     PipelineStore ps;
 
+    @Inject
+    ExecutorConfigurator ec;
+
     public void onRejectedExecution(Runnable r, ThreadPoolExecutor executor) {
         Pipeline pipeline = findPipeline(executor);
         pipeline.taskRejected();
@@ -39,27 +43,30 @@ public class ExecutorServiceExposer {
     }
 
     @Produces
-    @Managed
+    @Dedicated
     ExecutorService exposeExecutorService(InjectionPoint ip) {
-        Annotated annotated = ip.getAnnotated();
-        Managed annotation = annotated.getAnnotation(Managed.class);
-
-        int corePoolSize = annotation.corePoolSize();
-        int keepAliveTime = annotation.keepAliveTime();
-        int maxPoolSize = annotation.maxPoolSize();
-        int queueCapacity = annotation.queueCapacity();
         String pipelineName = getPipelineName(ip);
+        final Pipeline existingPipeline = this.ps.get(pipelineName);
+        if (existingPipeline != null) {
+            return existingPipeline.getExecutor();
+        }
+        ExecutorConfiguration config = this.ec.forPipeline(pipelineName);
+        int corePoolSize = config.getCorePoolSize();
+        int keepAliveTime = config.getKeepAliveTime();
+        int maxPoolSize = config.getMaxPoolSize();
+        int queueCapacity = config.getQueueCapacity();
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(queueCapacity);
         RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 corePoolSize, maxPoolSize, keepAliveTime,
                 TimeUnit.SECONDS, queue, threadFactory,
                 rejectedExecutionHandler);
-        this.ps.putIfAbsent(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
+        this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
     }
 
     @Produces
+    @Dedicated
     public Statistics exposeStatistics(InjectionPoint ip) {
         String name = getPipelineName(ip);
         return this.ps.getStatistics(name);
@@ -69,7 +76,7 @@ public class ExecutorServiceExposer {
         Annotated annotated = ip.getAnnotated();
         Dedicated dedicated = annotated.getAnnotation(Dedicated.class);
         String name;
-        if (dedicated != null) {
+        if (dedicated != null && !Dedicated.DEFAULT.equals(dedicated.value())) {
             name = dedicated.value();
         } else {
             name = ip.getMember().getName();

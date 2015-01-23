@@ -29,12 +29,13 @@ public class ExecutorServiceInjectionTarget {
 
     public final static String FIRST = "first";
     public final static String SECOND = "second";
+
     @Inject
-    @Managed
+    @Dedicated
     private ExecutorService first;
 
     @Inject
-    @Managed
+    @Dedicated
     private ExecutorService second;
 
     @Inject

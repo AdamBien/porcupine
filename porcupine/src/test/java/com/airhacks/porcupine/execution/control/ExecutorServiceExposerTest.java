@@ -15,6 +15,7 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_FIRST;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_SECOND;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceInjectionTarget.FIRST;
@@ -60,8 +61,8 @@ public class ExecutorServiceExposerTest {
                         ExecutorServiceInjectionTarget.class,
                         ExecutorServiceDedicatedInjectionTarget.class,
                         ExecutorServiceExposer.class,
-                        PipelineStore.class,
-                        Managed.class).
+                        ExecutorConfigurator.class,
+                        PipelineStore.class).
                 addAsManifestResource(new File("target/classes/META-INF/beans.xml"), "beans.xml");
     }
 

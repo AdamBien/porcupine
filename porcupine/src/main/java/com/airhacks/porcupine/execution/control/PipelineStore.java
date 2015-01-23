@@ -42,8 +42,8 @@ public class PipelineStore {
         return this.pipelines.get(name);
     }
 
-    public void putIfAbsent(String pipelineName, Pipeline pipeline) {
-        this.pipelines.putIfAbsent(pipelineName, pipeline);
+    public void put(String pipelineName, Pipeline pipeline) {
+        this.pipelines.put(pipelineName, pipeline);
     }
 
     public Collection<Pipeline> pipelines() {

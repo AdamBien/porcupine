@@ -15,6 +15,7 @@
  */
 package com.airhacks.porcupine.execution.entity;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -44,6 +45,10 @@ public class Pipeline {
         int maximumPoolSize = this.tpe.getMaximumPoolSize();
         return new Statistics(this.pipelineName, remainingQueueCapacity, completedTaskCount, activeThreadCount, largestThreadPoolSize, currentThreadPoolSize, totalNumberOfTasks, maximumPoolSize, this.rejectedTasks.get());
 
+    }
+
+    public ExecutorService getExecutor() {
+        return tpe;
     }
 
     public void shutdown() {

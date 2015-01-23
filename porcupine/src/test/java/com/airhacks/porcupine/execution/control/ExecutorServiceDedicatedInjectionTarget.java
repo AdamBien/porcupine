@@ -30,12 +30,10 @@ public class ExecutorServiceDedicatedInjectionTarget {
     public final static String CUSTOM_FIRST = "customFirst";
     public final static String CUSTOM_SECOND = "customSecond";
     @Inject
-    @Managed
     @Dedicated(CUSTOM_FIRST)
     private ExecutorService first;
 
     @Inject
-    @Managed
     @Dedicated(CUSTOM_SECOND)
     private ExecutorService second;
 

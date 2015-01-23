@@ -13,30 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.airhacks.porcupine.execution.control;
+package com.airhacks.porcupine.configuration.control;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Qualifier;
+import com.airhacks.porcupine.execution.control.ExecutorConfiguration;
 
 /**
  *
  * @author airhacks.com
  */
-@Qualifier
-@Target({ElementType.FIELD, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Dedicated {
+public class ExecutorConfigurator {
 
-    public final static String DEFAULT = "-";
+    public ExecutorConfiguration forPipeline(String name) {
+        return defaultConfigurator();
+    }
 
-    /**
-     *
-     * @return pipeline's name
-     */
-    @Nonbinding
-    String value() default DEFAULT;
+    public ExecutorConfiguration defaultConfigurator() {
+        int corePoolSize = 4;
+        int maxPoolSize = 10;
+        int keepAliveTime = 1;
+        int queueCapacity = 10;
+        return new ExecutorConfiguration(corePoolSize, keepAliveTime, maxPoolSize, queueCapacity);
+    }
+
 }
