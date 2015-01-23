@@ -16,6 +16,7 @@
 package com.airhacks.porcupine.execution.control;
 
 import com.airhacks.porcupine.execution.entity.Statistics;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import javax.enterprise.inject.Instance;
@@ -46,6 +47,9 @@ public class ExecutorServiceInjectionTarget {
     @Dedicated(SECOND)
     private Instance<Statistics> secondStatistics;
 
+    @Inject
+    private Instance<List<Statistics>> allStatistics;
+
     public Executor getFirst() {
         return first;
     }
@@ -60,6 +64,10 @@ public class ExecutorServiceInjectionTarget {
 
     public Statistics getSecondStatistics() {
         return this.secondStatistics.get();
+    }
+
+    public Instance<List<Statistics>> getAllStatistics() {
+        return allStatistics;
     }
 
 }

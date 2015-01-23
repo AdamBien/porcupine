@@ -25,6 +25,7 @@ import com.airhacks.porcupine.execution.entity.Statistics;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.Executor;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import static org.hamcrest.CoreMatchers.is;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -35,6 +36,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -126,6 +128,17 @@ public class ExecutorServiceExposerTest {
         pipelineName = secondStatistics.getPipelineName();
         assertNotNull(pipelineName);
         assertThat(pipelineName, is(CUSTOM_SECOND));
+    }
+
+    @Test
+    public void allStatistics() {
+        Instance<List<Statistics>> allStatisticsInstance = this.testSupport.getAllStatistics();
+        List<Statistics> allStatistics = allStatisticsInstance.get();
+        assertThat(allStatistics.size(), is(4));
+        assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("first")).count() == 1);
+        assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("second")).count() == 1);
+        assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("customFirst")).count() == 1);
+        assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("customSecond")).count() == 1);
     }
 
 }

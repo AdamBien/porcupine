@@ -4,6 +4,7 @@ import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Rejection;
 import com.airhacks.porcupine.execution.entity.Statistics;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -72,6 +73,11 @@ public class ExecutorServiceExposer {
         return this.ps.getStatistics(name);
     }
 
+    @Produces
+    public List<Statistics> getAllStatistics() {
+        return this.ps.getAllStatistics();
+    }
+
     String getPipelineName(InjectionPoint ip) {
         Annotated annotated = ip.getAnnotated();
         Dedicated dedicated = annotated.getAnnotation(Dedicated.class);
@@ -84,13 +90,13 @@ public class ExecutorServiceExposer {
         return name;
     }
 
+    Pipeline findPipeline(ThreadPoolExecutor executor) {
+        return this.ps.pipelines().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
+    }
+
     @PreDestroy
     public void shutdown() {
         this.ps.pipelines().parallelStream().forEach(p -> p.shutdown());
-    }
-
-    Pipeline findPipeline(ThreadPoolExecutor executor) {
-        return this.ps.pipelines().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
     }
 
 }
