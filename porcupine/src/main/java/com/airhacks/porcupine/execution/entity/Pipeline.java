@@ -47,7 +47,7 @@ public class Pipeline {
         RejectedExecutionHandler handler = this.tpe.getRejectedExecutionHandler();
         String rejectedExecutionHandlerName = null;
         if (handler != null) {
-            rejectedExecutionHandlerName = handler.getClass().getName();
+            rejectedExecutionHandlerName = handler.getClass().getSimpleName();
         }
         return new Statistics(this.pipelineName, remainingQueueCapacity, completedTaskCount, activeThreadCount, largestThreadPoolSize, currentThreadPoolSize, totalNumberOfTasks, maximumPoolSize, rejectedExecutionHandlerName, this.rejectedTasks.get());
 
