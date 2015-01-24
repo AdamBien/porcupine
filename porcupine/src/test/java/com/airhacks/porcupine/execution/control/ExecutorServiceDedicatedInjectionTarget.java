@@ -15,6 +15,7 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import com.airhacks.porcupine.execution.boundary.Dedicated;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;

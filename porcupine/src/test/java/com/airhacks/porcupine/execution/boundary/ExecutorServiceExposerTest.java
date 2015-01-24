@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.airhacks.porcupine.execution.control;
+package com.airhacks.porcupine.execution.boundary;
 
 import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
+import com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_FIRST;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceDedicatedInjectionTarget.CUSTOM_SECOND;
+import com.airhacks.porcupine.execution.control.ExecutorServiceInjectionTarget;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceInjectionTarget.FIRST;
 import static com.airhacks.porcupine.execution.control.ExecutorServiceInjectionTarget.SECOND;
+import com.airhacks.porcupine.execution.control.ManagedThreadFactoryExposerMock;
+import com.airhacks.porcupine.execution.control.PipelineStore;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.io.File;
@@ -128,6 +132,13 @@ public class ExecutorServiceExposerTest {
         pipelineName = secondStatistics.getPipelineName();
         assertNotNull(pipelineName);
         assertThat(pipelineName, is(CUSTOM_SECOND));
+    }
+
+    @Test
+    public void eachPipelineContainsDistinctExecutor() {
+        long numberOfExecutors = this.ps.pipelines().stream().map(s -> s.getExecutor()).distinct().count();
+        long numberOfStatistics = this.ps.getAllStatistics().size();
+        assertThat(numberOfExecutors, is(numberOfStatistics));
     }
 
     @Test
