@@ -7,9 +7,9 @@ import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Rejection;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -54,17 +54,22 @@ public class ExecutorServiceExposer {
             return existingPipeline.getExecutor();
         }
         ExecutorConfiguration config = this.ec.forPipeline(pipelineName);
+        ThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config);
+        this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
+        return threadPoolExecutor;
+    }
+
+    ThreadPoolExecutor createThreadPoolExecutor(ExecutorConfiguration config) {
         int corePoolSize = config.getCorePoolSize();
         int keepAliveTime = config.getKeepAliveTime();
         int maxPoolSize = config.getMaxPoolSize();
         int queueCapacity = config.getQueueCapacity();
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(queueCapacity);
+        BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(queueCapacity);
         RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 corePoolSize, maxPoolSize, keepAliveTime,
                 TimeUnit.SECONDS, queue, threadFactory,
                 rejectedExecutionHandler);
-        this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
     }
 
