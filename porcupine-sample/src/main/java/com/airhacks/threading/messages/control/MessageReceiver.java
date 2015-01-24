@@ -10,7 +10,11 @@ import java.util.logging.Logger;
  */
 public class MessageReceiver {
 
-    public String receiveMessage() {
+    public String receiveLightMessage() {
+        return "Message " + new Date();
+    }
+
+    public String receiveHeavyMessage() {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ex) {
@@ -18,5 +22,4 @@ public class MessageReceiver {
         }
         return "Message " + new Date();
     }
-
 }

@@ -23,8 +23,17 @@ public class MessagesResource {
     private final static int TIMEOUT_IN_SECONDS = 2;
 
     @GET
-    public void getMessage(@Suspended AsyncResponse ar) {
-        mes.getMessage(ar::resume);
+    @Path("light")
+    public void getLightMessage(@Suspended AsyncResponse ar) {
+        mes.getLightMessage(ar::resume);
+        ar.setTimeoutHandler(this::onTimeout);
+        ar.setTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+    }
+
+    @GET
+    @Path("heavy")
+    public void getHeavyMessage(@Suspended AsyncResponse ar) {
+        mes.getHeavyMessage(ar::resume);
         ar.setTimeoutHandler(this::onTimeout);
         ar.setTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
     }

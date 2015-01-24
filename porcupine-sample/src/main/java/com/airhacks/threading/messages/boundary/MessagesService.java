@@ -17,13 +17,21 @@ public class MessagesService {
 
     @Inject
     @Dedicated
-    ExecutorService es;
+    ExecutorService light;
+
+    @Inject
+    @Dedicated
+    ExecutorService heavy;
 
     @Inject
     MessageReceiver fetcher;
 
-    public void getMessage(Consumer<String> messageConsumer) {
-        CompletableFuture.supplyAsync(fetcher::receiveMessage, es).thenAccept(messageConsumer);
+    public void getLightMessage(Consumer<String> messageConsumer) {
+        CompletableFuture.supplyAsync(fetcher::receiveLightMessage, light).thenAccept(messageConsumer);
+    }
+
+    public void getHeavyMessage(Consumer<String> messageConsumer) {
+        CompletableFuture.supplyAsync(fetcher::receiveHeavyMessage, heavy).thenAccept(messageConsumer);
     }
 
 }
