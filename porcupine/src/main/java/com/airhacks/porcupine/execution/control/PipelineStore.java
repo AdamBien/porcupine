@@ -70,4 +70,8 @@ public class PipelineStore {
                 collect(Collectors.toList());
     }
 
+    public void clear() {
+        this.pipelines.clear();
+    }
+
 }

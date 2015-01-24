@@ -18,8 +18,12 @@ package com.airhacks.porcupine.execution.control;
 import com.airhacks.porcupine.execution.boundary.Dedicated;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
@@ -69,6 +73,11 @@ public class ExecutorServiceInjectionTarget {
 
     public Instance<List<Statistics>> getAllStatistics() {
         return allStatistics;
+    }
+
+    public String executeInFirst() throws InterruptedException, ExecutionException, TimeoutException {
+        Future<String> submit = this.first.submit(() -> "+ " + System.currentTimeMillis());
+        return submit.get(5, TimeUnit.SECONDS);
     }
 
 }

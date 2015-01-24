@@ -7,14 +7,13 @@ import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Rejection;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.PreDestroy;
 import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.Annotated;
@@ -47,25 +46,25 @@ public class ExecutorServiceExposer {
 
     @Produces
     @Dedicated
-    ExecutorService exposeExecutorService(InjectionPoint ip) {
+    public ExecutorService exposeExecutorService(InjectionPoint ip) {
         String pipelineName = getPipelineName(ip);
         final Pipeline existingPipeline = this.ps.get(pipelineName);
         if (existingPipeline != null) {
             return existingPipeline.getExecutor();
         }
         ExecutorConfiguration config = this.ec.forPipeline(pipelineName);
-        ThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config);
+        RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
+        ThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config, rejectedExecutionHandler);
         this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
     }
 
-    ThreadPoolExecutor createThreadPoolExecutor(ExecutorConfiguration config) {
+    ThreadPoolExecutor createThreadPoolExecutor(ExecutorConfiguration config, RejectedExecutionHandler rejectedExecutionHandler) {
         int corePoolSize = config.getCorePoolSize();
         int keepAliveTime = config.getKeepAliveTime();
         int maxPoolSize = config.getMaxPoolSize();
         int queueCapacity = config.getQueueCapacity();
-        BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(queueCapacity);
-        RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
+        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(queueCapacity);
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 corePoolSize, maxPoolSize, keepAliveTime,
                 TimeUnit.SECONDS, queue, threadFactory,
@@ -100,10 +99,4 @@ public class ExecutorServiceExposer {
     Pipeline findPipeline(ThreadPoolExecutor executor) {
         return this.ps.pipelines().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
     }
-
-    @PreDestroy
-    public void shutdown() {
-        this.ps.pipelines().parallelStream().forEach(p -> p.shutdown());
-    }
-
 }

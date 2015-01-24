@@ -20,6 +20,7 @@ import com.airhacks.porcupine.execution.control.ManagedThreadFactoryExposerMock;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +41,9 @@ public class DefaulThreadPoolExecutorTest {
     @Test
     public void executeRunnable() throws InterruptedException, ExecutionException {
         ExecutorConfigurator configurator = new ExecutorConfigurator();
-        ThreadPoolExecutor executor = this.cut.createThreadPoolExecutor(configurator.defaultConfigurator());
+        ThreadPoolExecutor executor = this.cut.createThreadPoolExecutor(configurator.defaultConfigurator(), (Runnable r, ThreadPoolExecutor e) -> {
+            fail("Task was rejected");
+        });
         String result = executor.submit(this::getMessage).get();
         assertTrue(result.startsWith("+"));
     }

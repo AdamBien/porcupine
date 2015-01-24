@@ -28,7 +28,9 @@ import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Statistics;
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeoutException;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import static org.hamcrest.CoreMatchers.is;
@@ -150,6 +152,17 @@ public class ExecutorServiceExposerTest {
         assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("second")).count() == 1);
         assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("customFirst")).count() == 1);
         assertTrue(allStatistics.stream().filter(s -> s.getPipelineName().equals("customSecond")).count() == 1);
+    }
+
+    @Test
+    public void execution() throws InterruptedException, ExecutionException, TimeoutException {
+        Statistics statistics = this.testSupport.getFirstStatistics();
+        long before = statistics.getTotalNumberOfTasks();
+        String result = this.testSupport.executeInFirst();
+        assertTrue(result.startsWith("+"));
+        statistics = this.testSupport.getFirstStatistics();
+        long after = statistics.getTotalNumberOfTasks();
+        assertThat(after, is(before + 1));
     }
 
 }

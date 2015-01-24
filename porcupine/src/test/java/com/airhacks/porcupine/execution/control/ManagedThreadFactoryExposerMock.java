@@ -26,7 +26,12 @@ public class ManagedThreadFactoryExposerMock {
 
     @Produces
     public ManagedThreadFactory expose() {
-        return (r) -> new Thread(r);
+        return (r) -> newThread(r);
     }
 
+    Thread newThread(Runnable r) {
+        Thread thread = new Thread(r, "-ManagedThreadFactoryExposerMock-");
+        thread.setDaemon(false);
+        return thread;
+    }
 }
