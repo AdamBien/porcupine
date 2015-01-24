@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.airhacks.porcupine.configuration.control;
+package com.airhacks.porcupine.execution.control;
 
-import com.airhacks.porcupine.execution.control.ExecutorConfiguration;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 /**
  *
  * @author airhacks.com
  */
-public class ExecutorConfigurator {
+public class ExecutorConfigurationTest {
 
-    public ExecutorConfiguration forPipeline(String name) {
-        return defaultConfigurator();
-    }
-
-    public ExecutorConfiguration defaultConfigurator() {
-        return ExecutorConfiguration.defaultConfiguration();
+    @Test
+    public void policyAndQueueSet() {
+        ExecutorConfiguration cut = new ExecutorConfiguration.Builder().
+                abortPolicy().
+                queueCapacity(6).
+                build();
+        assertNotNull(cut);
     }
 
 }

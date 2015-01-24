@@ -15,22 +15,91 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  *
  * @author airhacks.com
  */
 public class ExecutorConfiguration {
 
-    int corePoolSize;
-    int keepAliveTime;
-    int maxPoolSize;
-    int queueCapacity;
+    private int corePoolSize;
+    private int keepAliveTime;
+    private int maxPoolSize;
+    private int queueCapacity;
+    private RejectedExecutionHandler rejectedExecutionHandler;
 
-    public ExecutorConfiguration(int corePoolSize, int keepAliveTime, int maxPoolSize, int queueCapacity) {
-        this.corePoolSize = corePoolSize;
-        this.keepAliveTime = keepAliveTime;
-        this.maxPoolSize = maxPoolSize;
-        this.queueCapacity = queueCapacity;
+    private ExecutorConfiguration() {
+    }
+
+    public final static class Builder {
+
+        ExecutorConfiguration configuration = new ExecutorConfiguration();
+
+        public Builder corePoolSize(int corePoolSize) {
+            configuration.corePoolSize = corePoolSize;
+            return this;
+        }
+
+        public Builder keepAliveTime(int keepAliveTime) {
+            configuration.keepAliveTime = keepAliveTime;
+            return this;
+        }
+
+        public Builder maxPoolSize(int maxPoolSize) {
+            configuration.maxPoolSize = maxPoolSize;
+            return this;
+        }
+
+        public Builder queueCapacity(int queueCapacity) {
+            configuration.queueCapacity = queueCapacity;
+            return this;
+        }
+
+        public Builder abortPolicy() {
+            configuration.rejectedExecutionHandler = new ThreadPoolExecutor.AbortPolicy();
+            return this;
+        }
+
+        public Builder callerRunsPolicy() {
+            configuration.rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
+            return this;
+        }
+
+        public Builder discardPolicy() {
+            configuration.rejectedExecutionHandler = new ThreadPoolExecutor.DiscardPolicy();
+            return this;
+        }
+
+        public Builder discardOldestPolicy() {
+            configuration.rejectedExecutionHandler = new ThreadPoolExecutor.DiscardOldestPolicy();
+            return this;
+        }
+
+        public Builder customRejectedExecutionHandler(RejectedExecutionHandler reh) {
+            configuration.rejectedExecutionHandler = reh;
+            return this;
+        }
+
+        public ExecutorConfiguration build() {
+            return configuration;
+
+        }
+    }
+
+    public static final ExecutorConfiguration defaultConfiguration() {
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        int corePoolSize = availableProcessors;
+        int maxPoolSize = availableProcessors * 2;
+        int keepAliveTime = 1;
+        int queueCapacity = 100;
+        return new ExecutorConfiguration.Builder().
+                corePoolSize(corePoolSize).
+                keepAliveTime(keepAliveTime).
+                maxPoolSize(maxPoolSize).
+                queueCapacity(queueCapacity).
+                build();
     }
 
     public int getCorePoolSize() {
@@ -47,6 +116,10 @@ public class ExecutorConfiguration {
 
     public int getQueueCapacity() {
         return queueCapacity;
+    }
+
+    public RejectedExecutionHandler getRejectedExecutionHandler() {
+        return rejectedExecutionHandler;
     }
 
 }

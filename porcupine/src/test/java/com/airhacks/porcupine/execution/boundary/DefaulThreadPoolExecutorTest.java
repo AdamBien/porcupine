@@ -16,8 +16,11 @@
 package com.airhacks.porcupine.execution.boundary;
 
 import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
+import com.airhacks.porcupine.execution.control.ExecutorConfiguration;
 import com.airhacks.porcupine.execution.control.ManagedThreadFactoryExposerMock;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -50,6 +53,30 @@ public class DefaulThreadPoolExecutorTest {
 
     public String getMessage() {
         return "+ " + System.currentTimeMillis();
+    }
+
+    @Test
+    public void zeroQueueCapacityImpliesSynchronousQueue() {
+        ExecutorConfiguration config = new ExecutorConfiguration.Builder().
+                queueCapacity(0).
+                corePoolSize(0).
+                maxPoolSize(1).
+                build();
+        ThreadPoolExecutor executor = this.cut.createThreadPoolExecutor(config, (r, e) -> {
+        });
+        assertTrue(executor.getQueue() instanceof SynchronousQueue);
+    }
+
+    @Test
+    public void nonZeroQueueCapacityImpliesArrayBlockingQueue() {
+        ExecutorConfiguration config = new ExecutorConfiguration.Builder().
+                queueCapacity(1).
+                corePoolSize(0).
+                maxPoolSize(1).
+                build();
+        ThreadPoolExecutor executor = this.cut.createThreadPoolExecutor(config, (r, e) -> {
+        });
+        assertTrue(executor.getQueue() instanceof ArrayBlockingQueue);
     }
 
 }

@@ -11,6 +11,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +54,10 @@ public class ExecutorServiceExposer {
             return existingPipeline.getExecutor();
         }
         ExecutorConfiguration config = this.ec.forPipeline(pipelineName);
-        RejectedExecutionHandler rejectedExecutionHandler = this::onRejectedExecution;
+        RejectedExecutionHandler rejectedExecutionHandler = config.getRejectedExecutionHandler();
+        if (rejectedExecutionHandler == null) {
+            rejectedExecutionHandler = this::onRejectedExecution;
+        }
         ThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config, rejectedExecutionHandler);
         this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
@@ -64,7 +68,12 @@ public class ExecutorServiceExposer {
         int keepAliveTime = config.getKeepAliveTime();
         int maxPoolSize = config.getMaxPoolSize();
         int queueCapacity = config.getQueueCapacity();
-        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(queueCapacity);
+        BlockingQueue<Runnable> queue;
+        if (queueCapacity > 0) {
+            queue = new ArrayBlockingQueue<>(queueCapacity);
+        } else {
+            queue = new SynchronousQueue<>();
+        }
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
                 corePoolSize, maxPoolSize, keepAliveTime,
                 TimeUnit.SECONDS, queue, threadFactory,

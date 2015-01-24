@@ -22,9 +22,10 @@ public class Statistics {
     private int currentThreadPoolSize;
     private long totalNumberOfTasks;
     private int maximumPoolSize;
+    private String rejectedExecutionHandlerName;
     private long rejectedTasks;
 
-    public Statistics(String pipelineName, int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, long rejectedTasks) {
+    public Statistics(String pipelineName, int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, String rejectedExecutionHandlerName, long rejectedTasks) {
         this.pipelineName = pipelineName;
         this.remainingQueueCapacity = remainingQueueCapacity;
         this.completedTaskCount = completedTaskCount;
@@ -34,6 +35,7 @@ public class Statistics {
         this.totalNumberOfTasks = totalNumberOfTasks;
         this.maximumPoolSize = maximumPoolSize;
         this.rejectedTasks = rejectedTasks;
+        this.rejectedExecutionHandlerName = rejectedExecutionHandlerName;
     }
 
     public Statistics() {
@@ -75,4 +77,7 @@ public class Statistics {
         return pipelineName;
     }
 
+    public String getRejectedExecutionHandlerName() {
+        return rejectedExecutionHandlerName;
+    }
 }
