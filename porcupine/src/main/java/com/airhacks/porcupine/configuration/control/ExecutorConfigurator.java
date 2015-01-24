@@ -28,10 +28,11 @@ public class ExecutorConfigurator {
     }
 
     public ExecutorConfiguration defaultConfigurator() {
-        int corePoolSize = 4;
-        int maxPoolSize = 10;
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        int corePoolSize = availableProcessors;
+        int maxPoolSize = availableProcessors * 2;
         int keepAliveTime = 1;
-        int queueCapacity = 10;
+        int queueCapacity = 100;
         return new ExecutorConfiguration(corePoolSize, keepAliveTime, maxPoolSize, queueCapacity);
     }
 
