@@ -1,6 +1,8 @@
-package com.airhacks.porcupine.execution.control;
+package com.airhacks.porcupine.execution.boundary;
 
 import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
+import com.airhacks.porcupine.execution.control.ExecutorConfiguration;
+import com.airhacks.porcupine.execution.control.PipelineStore;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Rejection;
 import com.airhacks.porcupine.execution.entity.Statistics;
