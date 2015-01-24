@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 
 /**
@@ -71,6 +72,12 @@ public class PipelineStore {
     }
 
     public void clear() {
+        this.pipelines.clear();
+    }
+
+    @PreDestroy
+    public void shutdown() {
+        this.pipelines.values().parallelStream().forEach(p -> p.shutdown());
         this.pipelines.clear();
     }
 
