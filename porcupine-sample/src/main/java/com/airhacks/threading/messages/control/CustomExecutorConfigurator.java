@@ -19,7 +19,7 @@ public class CustomExecutorConfigurator extends ExecutorConfigurator {
     @Override
     public ExecutorConfiguration forPipeline(String name) {
         if ("heavy".equals(name)) {
-            return new ExecutorConfiguration(4, 30, 100, 1000);
+            return new ExecutorConfiguration(2, 1, 100, 1000);
         }
         return super.forPipeline(name);
     }

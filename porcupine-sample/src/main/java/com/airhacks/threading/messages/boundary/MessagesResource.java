@@ -18,14 +18,14 @@ import javax.ws.rs.core.Response;
 public class MessagesResource {
 
     @Inject
-    MessagesService mes;
+    MessagesService service;
 
     private final static int TIMEOUT_IN_SECONDS = 2;
 
     @GET
     @Path("light")
     public void getLightMessage(@Suspended AsyncResponse ar) {
-        mes.getLightMessage(ar::resume);
+        service.getLightMessage(ar::resume);
         ar.setTimeoutHandler(this::onTimeout);
         ar.setTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
     }
@@ -33,7 +33,7 @@ public class MessagesResource {
     @GET
     @Path("heavy")
     public void getHeavyMessage(@Suspended AsyncResponse ar) {
-        mes.getHeavyMessage(ar::resume);
+        service.getHeavyMessage(ar::resume);
         ar.setTimeoutHandler(this::onTimeout);
         ar.setTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
     }

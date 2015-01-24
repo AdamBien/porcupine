@@ -1,6 +1,6 @@
 package com.airhacks.threading.messages.boundary;
 
-import com.airhacks.porcupine.execution.control.Dedicated;
+import com.airhacks.porcupine.execution.boundary.Dedicated;
 import com.airhacks.threading.messages.control.MessageReceiver;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;

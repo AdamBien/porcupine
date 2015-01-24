@@ -20,12 +20,11 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>threading</finalName>
+        <finalName>porcupine-sample</finalName>
     </build>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
-    <name>porcupine-sample</name>
 </project>
