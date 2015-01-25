@@ -15,18 +15,35 @@
  */
 package com.airhacks.porcupine.configuration.control;
 
+import com.airhacks.porcupine.execution.boundary.Dedicated;
 import com.airhacks.porcupine.execution.control.ExecutorConfiguration;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import javax.enterprise.inject.Specializes;
 
 /**
+ * This class is meant to be overridden and specialized {@link Specializes} to
+ * change the {@link ThreadPoolExecutor} configuration.
  *
  * @author airhacks.com
  */
 public class ExecutorConfigurator {
 
+    /**
+     *
+     * @param name the name used within the {@link Dedicated} qualifier.
+     * @return a default configuration, unless overridden
+     */
     public ExecutorConfiguration forPipeline(String name) {
         return defaultConfigurator();
     }
 
+    /**
+     *
+     * @return the default configuration for all injected
+     * {@link ExecutorService} instances (unless overridden and specialized
+     * {@link Specializes})
+     */
     public ExecutorConfiguration defaultConfigurator() {
         return ExecutorConfiguration.defaultConfiguration();
     }

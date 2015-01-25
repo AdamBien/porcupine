@@ -15,6 +15,7 @@
  */
 package com.airhacks.porcupine.execution.boundary;
 
+import com.airhacks.porcupine.execution.entity.Statistics;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,6 +24,13 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
 /**
+ * <p>
+ * A qualifier used to injection of configured and managed ExecutorService
+ * instances. The <code>value()</code> method defines the name of the
+ * ExecutorService which can be injected into repeatedly into different
+ * components.
+ * <p>
+ * The same name can be used to retrieve the corresponding {@link Statistics}.
  *
  * @author airhacks.com
  */
@@ -34,8 +42,11 @@ public @interface Dedicated {
     public final static String DEFAULT = "-";
 
     /**
+     * Defines the name for the pipeline (Executor with statistics). If the name
+     * is unset, the name of the field is going to be used instead.
      *
-     * @return pipeline's name
+     * @return the name of the pipeline. Either a new pipeline is going to be
+     * created, or an existing returned.
      */
     @Nonbinding
     String value() default DEFAULT;

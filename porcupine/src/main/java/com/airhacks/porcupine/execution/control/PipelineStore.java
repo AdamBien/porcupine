@@ -26,6 +26,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 
 /**
+ * Internal singleton used for pipeline storage. Not intended for external use.
  *
  * @author airhacks.com
  */

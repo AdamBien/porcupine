@@ -22,6 +22,8 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  *
+ * An internal class -- don't use it in your application.
+ *
  * @author airhacks.com
  */
 public class Pipeline {

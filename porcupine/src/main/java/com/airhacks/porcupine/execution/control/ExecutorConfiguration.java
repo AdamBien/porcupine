@@ -15,10 +15,13 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
+ * Allows the configuration of the {@link ExecutorService}. See
+ * {@link ThreadPoolExecutor} for configuration options.
  *
  * @author airhacks.com
  */
@@ -88,6 +91,12 @@ public class ExecutorConfiguration {
         }
     }
 
+    /**
+     *
+     * @return default configuration. corePoolSize is the amount of cores, the
+     * maxPoolSize twice the amount of cores, keepAliveTime is one second and
+     * the queueCapacity is 100.
+     */
     public static final ExecutorConfiguration defaultConfiguration() {
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         int corePoolSize = availableProcessors;

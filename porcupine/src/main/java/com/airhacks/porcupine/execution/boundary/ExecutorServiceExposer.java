@@ -23,6 +23,11 @@ import javax.inject.Inject;
 
 /**
  *
+ * Exposes a {@link Dedicated} {@link ExecutorService} and the corresponding
+ * {@link Statistics} to the clients.
+ *
+ *
+ *
  * @author airhacks.com
  */
 public class ExecutorServiceExposer {

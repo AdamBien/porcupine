@@ -19,8 +19,13 @@ import java.util.concurrent.ThreadFactory;
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedThreadFactory;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.Specializes;
 
 /**
+ *
+ * Uses the Java EE 7 {@link ManagedThreadFactory} for thread creations. This
+ * class can be overridden {@link Specializes} in Java EE 6 or integration tests
+ * to create unmanaged threads.
  *
  * @author airhacks.com
  */

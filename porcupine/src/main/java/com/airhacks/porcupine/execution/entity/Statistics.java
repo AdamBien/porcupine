@@ -1,11 +1,18 @@
 package com.airhacks.porcupine.execution.entity;
 
+import com.airhacks.porcupine.execution.boundary.Dedicated;
+import java.util.concurrent.ThreadPoolExecutor;
 import javax.enterprise.inject.Alternative;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * A DTO grouping relevant statistic information. All attributes are directly
+ * derived from {@link ThreadPoolExecutor}.
+ *
+ * The {@link Statistics#pipelineName} attribute is the name used in the
+ * {@link Dedicated} qualifier.
  *
  * @author airhacks.com
  */

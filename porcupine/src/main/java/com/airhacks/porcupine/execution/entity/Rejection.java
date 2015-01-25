@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
+ * A DTO carrying information of rejected tasks, because of overload.
+ *
  * @author airhacks.com
  */
 @XmlRootElement
