@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.airhacks</groupId>
     <artifactId>porcupine</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <description>Threading and resilience library for javaee</description>
     <url>http://airhacks.com</url>
     <organization>
@@ -136,7 +136,7 @@
         <connection>scm:git:git@github.com:AdamBien/porcupine.git</connection>
         <url>scm:git:git@github.com:AdamBien/porcupine.git</url>
         <developerConnection>scm:git:git@github.com:AdamBien/porcupine.git</developerConnection>
-        <tag>v0.0.1</tag>
+        <tag>v0.0.2</tag>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
