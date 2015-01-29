@@ -29,6 +29,8 @@ public class MessagesService {
 
 ##Statistics and monitoring
 
+###Exposure
+
 	@Path("statistics")
 	@RequestScoped
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -44,7 +46,63 @@ public class MessagesService {
 
 	}
 	
-	
+###Sample output
+
+XML statistics
+
+```
+<statistics>
+	<pipelineName>light</pipelineName>
+	<remainingQueueCapacity>100</remainingQueueCapacity>
+	<completedTaskCount>1</completedTaskCount>
+	<activeThreadCount>0</activeThreadCount>
+	<largestThreadPoolSize>1</largestThreadPoolSize>
+	<currentThreadPoolSize>1</currentThreadPoolSize>
+	<totalNumberOfTasks>1</totalNumberOfTasks>
+	<maximumPoolSize>48</maximumPoolSize>
+	<rejectedExecutionHandlerName>ExecutorServiceExposer$$Lambda$3/1562863014</rejectedExecutionHandlerName>
+	<rejectedTasks>0</rejectedTasks>
+</statistics>
+<statistics>
+	<pipelineName>heavy</pipelineName>
+	<remainingQueueCapacity>16</remainingQueueCapacity>
+	<completedTaskCount>0</completedTaskCount>
+	<activeThreadCount>1</activeThreadCount>
+	<largestThreadPoolSize>1</largestThreadPoolSize>
+	<currentThreadPoolSize>1</currentThreadPoolSize>
+	<totalNumberOfTasks>1</totalNumberOfTasks>
+	<maximumPoolSize>8</maximumPoolSize>
+	<rejectedExecutionHandlerName>CallerRunsPolicy</rejectedExecutionHandlerName>
+	<rejectedTasks>0</rejectedTasks>
+</statistics>
+```
+JSON statistics
+```
+[{
+        "pipelineName": "light",
+        "remainingQueueCapacity": 100,
+        "completedTaskCount": 1,
+        "activeThreadCount": 0,
+        "largestThreadPoolSize": 1,
+        "currentThreadPoolSize": 1,
+        "totalNumberOfTasks": 1,
+        "maximumPoolSize": 48,
+        "rejectedExecutionHandlerName": "ExecutorServiceExposer$$Lambda$3/1562863014",
+        "rejectedTasks": 0
+    },
+    {
+        "pipelineName": "heavy",
+        "remainingQueueCapacity": 16,
+        "completedTaskCount": 1,
+        "activeThreadCount": 0,
+        "largestThreadPoolSize": 1,
+        "currentThreadPoolSize": 1,
+        "totalNumberOfTasks": 1,
+        "maximumPoolSize": 8,
+        "rejectedExecutionHandlerName": "CallerRunsPolicy",
+        "rejectedTasks": 0
+    }]
+```
 ##Configuration
 
 ```
