@@ -63,6 +63,8 @@ Custom naming is also supported:
 	
 ###Sample output
 
+Unified thread pool statistics are accessible via injection. Individual statistics are injectable with the ´@Dedicated´ qualifier.
+
 XML statistics
 
 ```
@@ -118,7 +120,7 @@ JSON statistics
         "rejectedTasks": 0
     }]
 ```
-##Configuration
+## Custom configuration (fully optional)
 
 ```
 @Specializes
