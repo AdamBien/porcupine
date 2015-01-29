@@ -1,5 +1,13 @@
 # porcupine
-Threading, Resiliency and Monitoring for Java EE 7
+Configurable threading, resiliency and monitoring with injectable statistics for Java EE 7
+
+Features:
+
+1. Conventional: ExecutorService is directly injectable. The thread pool derives the name from the field, but can be easily overridden.
+2. Drop-in install: a single dependency in the pom.xml is sufficient. 
+3. Standard based: porcupine uses [JSR 236: Concurrency Utilities for JavaTM EE](https://www.jcp.org/en/jsr/detail?id=236)
+4. Small: the entire framework is: 16kB.
+5. Extensible without configuration: All major components can be replaced (big thanks to [@Specializes](http://docs.oracle.com/javaee/7/api/javax/enterprise/inject/Specializes.html))
 
 ##Installation
 
@@ -25,6 +33,13 @@ public class MessagesService {
     @Inject
     @Dedicated
     ExecutorService heavy;
+```
+
+Custom naming is also supported:
+```
+    @Inject
+    @Dedicated("custom-pool")
+    private ExecutorService first;
 ```
 
 ##Statistics and monitoring
