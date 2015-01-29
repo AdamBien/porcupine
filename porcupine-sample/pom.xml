@@ -9,7 +9,7 @@
         <dependency>
             <groupId>com.airhacks</groupId>
             <artifactId>porcupine</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
