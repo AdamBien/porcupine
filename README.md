@@ -63,7 +63,7 @@ Custom naming is also supported:
 	
 ###Sample output
 
-Unified thread pool statistics are accessible via injection. Individual statistics are injectable with the ´@Dedicated´ qualifier.
+Unified thread pool statistics are accessible via injection. Individual statistics are injectable with the `@Dedicated` qualifier.
 
 XML statistics
 
