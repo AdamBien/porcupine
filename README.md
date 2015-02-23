@@ -9,6 +9,8 @@ Features:
 4. Small: the entire framework is: 16kB.
 5. Extensible without configuration: All major components can be replaced (big thanks to [@Specializes](http://docs.oracle.com/javaee/7/api/javax/enterprise/inject/Specializes.html))
 
+[![Intro](http://img.youtube.com/vi/20KVZ0ZnCl4/0.jpg)](https://www.youtube.com/embed/20KVZ0ZnCl4?rel=0)
+
 ##Installation
 
 ```
