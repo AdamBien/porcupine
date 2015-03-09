@@ -34,6 +34,12 @@ public class ExecutorConfiguration {
     private RejectedExecutionHandler rejectedExecutionHandler;
 
     private ExecutorConfiguration() {
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        this.corePoolSize = availableProcessors;
+        this.maxPoolSize = availableProcessors * 2;
+        this.keepAliveTime = 1;
+        this.queueCapacity = 100;
+
     }
 
     public final static class Builder {
@@ -98,17 +104,7 @@ public class ExecutorConfiguration {
      * the queueCapacity is 100.
      */
     public static final ExecutorConfiguration defaultConfiguration() {
-        int availableProcessors = Runtime.getRuntime().availableProcessors();
-        int corePoolSize = availableProcessors;
-        int maxPoolSize = availableProcessors * 2;
-        int keepAliveTime = 1;
-        int queueCapacity = 100;
-        return new ExecutorConfiguration.Builder().
-                corePoolSize(corePoolSize).
-                keepAliveTime(keepAliveTime).
-                maxPoolSize(maxPoolSize).
-                queueCapacity(queueCapacity).
-                build();
+        return new ExecutorConfiguration();
     }
 
     public int getCorePoolSize() {
