@@ -33,4 +33,8 @@ public class Rejection {
         return taskClass;
     }
 
+    @Override
+    public String toString() {
+        return "Rejection{" + "statistics=" + statistics + ", taskClass=" + taskClass + '}';
+    }
 }
