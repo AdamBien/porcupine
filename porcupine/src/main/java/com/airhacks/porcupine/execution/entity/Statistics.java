@@ -87,4 +87,10 @@ public class Statistics {
     public String getRejectedExecutionHandlerName() {
         return rejectedExecutionHandlerName;
     }
+
+    @Override
+    public String toString() {
+        return "Statistics{" + "pipelineName=" + pipelineName + ", remainingQueueCapacity=" + remainingQueueCapacity + ", completedTaskCount=" + completedTaskCount + ", activeThreadCount=" + activeThreadCount + ", largestThreadPoolSize=" + largestThreadPoolSize + ", currentThreadPoolSize=" + currentThreadPoolSize + ", totalNumberOfTasks=" + totalNumberOfTasks + ", maximumPoolSize=" + maximumPoolSize + ", rejectedExecutionHandlerName=" + rejectedExecutionHandlerName + ", rejectedTasks=" + rejectedTasks + '}';
+    }
+
 }
