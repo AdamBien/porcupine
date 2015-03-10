@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.airhacks</groupId>
     <artifactId>porcupine</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <description>Threading and resilience library for javaee</description>
     <url>http://airhacks.com</url>
     <organization>
