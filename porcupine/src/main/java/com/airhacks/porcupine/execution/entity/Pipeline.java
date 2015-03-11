@@ -40,6 +40,7 @@ public class Pipeline {
 
     public Statistics getStatistics() {
         int remainingQueueCapacity = this.tpe.getQueue().remainingCapacity();
+        int corePoolSize = this.tpe.getCorePoolSize();
         long completedTaskCount = this.tpe.getCompletedTaskCount();
         int activeThreadCount = this.tpe.getActiveCount();
         int largestThreadPoolSize = this.tpe.getLargestPoolSize();
@@ -51,7 +52,7 @@ public class Pipeline {
         if (handler != null) {
             rejectedExecutionHandlerName = handler.getClass().getSimpleName();
         }
-        return new Statistics(this.pipelineName, remainingQueueCapacity, completedTaskCount, activeThreadCount, largestThreadPoolSize, currentThreadPoolSize, totalNumberOfTasks, maximumPoolSize, rejectedExecutionHandlerName, this.rejectedTasks.get());
+        return new Statistics(this.pipelineName, remainingQueueCapacity, completedTaskCount, activeThreadCount, corePoolSize, largestThreadPoolSize, currentThreadPoolSize, totalNumberOfTasks, maximumPoolSize, rejectedExecutionHandlerName, this.rejectedTasks.get());
 
     }
 

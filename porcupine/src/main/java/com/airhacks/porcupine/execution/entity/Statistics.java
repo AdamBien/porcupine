@@ -31,12 +31,14 @@ public class Statistics {
     private int maximumPoolSize;
     private String rejectedExecutionHandlerName;
     private long rejectedTasks;
+    private int corePoolSize;
 
-    public Statistics(String pipelineName, int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, String rejectedExecutionHandlerName, long rejectedTasks) {
+    public Statistics(String pipelineName, int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int corePoolSize, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, String rejectedExecutionHandlerName, long rejectedTasks) {
         this.pipelineName = pipelineName;
         this.remainingQueueCapacity = remainingQueueCapacity;
         this.completedTaskCount = completedTaskCount;
         this.activeThreadCount = activeThreadCount;
+        this.corePoolSize = corePoolSize;
         this.largestThreadPoolSize = largestThreadPoolSize;
         this.currentThreadPoolSize = currentThreadPoolSize;
         this.totalNumberOfTasks = totalNumberOfTasks;
@@ -88,9 +90,13 @@ public class Statistics {
         return rejectedExecutionHandlerName;
     }
 
+    public int getCorePoolSize() {
+        return corePoolSize;
+    }
+
     @Override
     public String toString() {
-        return "Statistics{" + "pipelineName=" + pipelineName + ", remainingQueueCapacity=" + remainingQueueCapacity + ", completedTaskCount=" + completedTaskCount + ", activeThreadCount=" + activeThreadCount + ", largestThreadPoolSize=" + largestThreadPoolSize + ", currentThreadPoolSize=" + currentThreadPoolSize + ", totalNumberOfTasks=" + totalNumberOfTasks + ", maximumPoolSize=" + maximumPoolSize + ", rejectedExecutionHandlerName=" + rejectedExecutionHandlerName + ", rejectedTasks=" + rejectedTasks + '}';
+        return "Statistics{" + "pipelineName=" + pipelineName + ", remainingQueueCapacity=" + remainingQueueCapacity + ", completedTaskCount=" + completedTaskCount + ", activeThreadCount=" + activeThreadCount + ", largestThreadPoolSize=" + largestThreadPoolSize + ", currentThreadPoolSize=" + currentThreadPoolSize + ", totalNumberOfTasks=" + totalNumberOfTasks + ", maximumPoolSize=" + maximumPoolSize + ", rejectedExecutionHandlerName=" + rejectedExecutionHandlerName + ", rejectedTasks=" + rejectedTasks + ", corePoolSize=" + corePoolSize + '}';
     }
 
 }
