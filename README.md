@@ -9,7 +9,10 @@ Features:
 4. Small: the entire framework is: 16kB.
 5. Extensible without configuration: All major components can be replaced (big thanks to [@Specializes](http://docs.oracle.com/javaee/7/api/javax/enterprise/inject/Specializes.html))
 
+### Booting Porcupine
 [![Intro](https://i.ytimg.com/vi/20KVZ0ZnCl4/mqdefault.jpg)](https://www.youtube.com/embed/20KVZ0ZnCl4?rel=0)
+
+### Configuration
 [![Configuration](https://i.ytimg.com/vi/4M1EJntwjk8/mqdefault.jpg)](https://www.youtube.com/embed/4M1EJntwjk8?rel=0)
 
 ##Installation
