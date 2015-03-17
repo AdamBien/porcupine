@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.airhacks</groupId>
     <artifactId>porcupine-spy</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.4-SNAPSHOT</version>
     <description>Threading and resilience library for Java EE with Http header injection</description>
     <url>http://airhacks.com</url>
     <organization>
