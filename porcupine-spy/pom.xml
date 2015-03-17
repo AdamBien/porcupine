@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.airhacks</groupId>
     <artifactId>porcupine-spy</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
     <description>Threading and resilience library for Java EE with Http header injection</description>
     <url>http://airhacks.com</url>
     <organization>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>porcupine</artifactId>
-            <version>${project.version}</version>
+            <version>0.0.4</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -148,7 +148,7 @@
         <connection>scm:git:git@github.com:AdamBien/porcupine.git</connection>
         <url>scm:git:git@github.com:AdamBien/porcupine.git</url>
         <developerConnection>scm:git:git@github.com:AdamBien/porcupine.git</developerConnection>
-        <tag>v0.0.3</tag>
+        <tag>v0.0.4</tag>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
