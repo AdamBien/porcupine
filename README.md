@@ -26,6 +26,16 @@ Features:
             <scope>compile</scope>
         </dependency>
 ```
+With statistics injection into HTTP headers of all JAX-RS resources:
+
+```
+        <dependency>
+            <groupId>com.airhacks</groupId>
+            <artifactId>porcupine-spy</artifactId>
+            <version>NEWEST_VERSION</version>
+            <scope>compile</scope>
+        </dependency>
+```
 
 ##Conventional Usage
 
