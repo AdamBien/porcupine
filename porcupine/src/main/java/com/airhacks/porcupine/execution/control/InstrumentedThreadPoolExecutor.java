@@ -32,6 +32,7 @@ public class InstrumentedThreadPoolExecutor extends ThreadPoolExecutor {
 
     public InstrumentedThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+        this.minRemainingQueueCapacity = workQueue.remainingCapacity();
     }
 
     @Override
@@ -41,9 +42,9 @@ public class InstrumentedThreadPoolExecutor extends ThreadPoolExecutor {
 
     @Override
     protected void beforeExecute(Thread t, Runnable r) {
+        super.beforeExecute(t, r);
         int current = super.getQueue().remainingCapacity();
         this.minRemainingQueueCapacity = min(this.minRemainingQueueCapacity, current);
-        super.beforeExecute(t, r);
     }
 
     public int getMinRemainingQueueCapacity() {
