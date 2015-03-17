@@ -35,14 +35,14 @@ public class HttpHeaderStatisticInjectorTest {
 
     @Test
     public void serializeStatistics() {
-        Statistics stats = new Statistics("test", 0, 1, 2, 3, 4, 5, 6, 7, "duke", 8);
+        Statistics stats = new Statistics("test", 0, 1, 2, 3, 4, 5, 6, 7, 8, "duke", 9);
         String result = this.cut.serializeStatistics(stats);
         assertNotNull(result);
     }
 
     @Test
     public void serializeStatisticsWithoutHandler() {
-        Statistics stats = new Statistics("test", 0, 1, 2, 3, 4, 5, 6, 7, null, 8);
+        Statistics stats = new Statistics("test", 0, 1, 2, 3, 4, 5, 6, 7, 8, null, 9);
         String result = this.cut.serializeStatistics(stats);
         assertNotNull(result);
     }

@@ -63,6 +63,7 @@ public class HttpHeaderStatisticInjector implements WriterInterceptor {
         stats.add("maximumPoolSize", statistics.getMaximumPoolSize());
         stats.add("rejectedTasks", statistics.getRejectedTasks());
         stats.add("remainingQueueCapacity", statistics.getRemainingQueueCapacity());
+        stats.add("minQueueCapacity", statistics.getMinQueueCapacity());
         stats.add("totalNumberOfTasks", statistics.getTotalNumberOfTasks());
         StringWriter writer = new StringWriter();
         try (JsonWriter outputWriter = Json.createWriter(writer)) {
