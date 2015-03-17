@@ -25,6 +25,7 @@ import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.ext.WriterInterceptor;
 import javax.ws.rs.ext.WriterInterceptorContext;
@@ -42,7 +43,8 @@ public class HttpHeaderStatisticInjector implements WriterInterceptor {
     @Override
     public void aroundWriteTo(WriterInterceptorContext context) throws IOException, WebApplicationException {
         List<Statistics> pipelines = statistics.get();
-        pipelines.forEach(s -> context.getHeaders().add("x-porcupine-statistics-" + s.getPipelineName(), s.toString()));
+        MultivaluedMap<String, Object> headers = context.getHeaders();
+        pipelines.forEach(s -> headers.add("x-porcupine-statistics-" + s.getPipelineName(), serializeStatistics(s)));
         context.proceed();
     }
 
