@@ -23,6 +23,7 @@ public class Statistics {
 
     private String pipelineName;
     private int remainingQueueCapacity;
+    private int minQueueCapacity;
     private long completedTaskCount;
     private int activeThreadCount;
     private int largestThreadPoolSize;
@@ -33,9 +34,10 @@ public class Statistics {
     private long rejectedTasks;
     private int corePoolSize;
 
-    public Statistics(String pipelineName, int remainingQueueCapacity, long completedTaskCount, int activeThreadCount, int corePoolSize, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, String rejectedExecutionHandlerName, long rejectedTasks) {
+    public Statistics(String pipelineName, int remainingQueueCapacity, int minQueueCapacity, long completedTaskCount, int activeThreadCount, int corePoolSize, int largestThreadPoolSize, int currentThreadPoolSize, long totalNumberOfTasks, int maximumPoolSize, String rejectedExecutionHandlerName, long rejectedTasks) {
         this.pipelineName = pipelineName;
         this.remainingQueueCapacity = remainingQueueCapacity;
+        this.minQueueCapacity = minQueueCapacity;
         this.completedTaskCount = completedTaskCount;
         this.activeThreadCount = activeThreadCount;
         this.corePoolSize = corePoolSize;
@@ -52,6 +54,10 @@ public class Statistics {
 
     public int getRemainingQueueCapacity() {
         return remainingQueueCapacity;
+    }
+
+    public int getMinQueueCapacity() {
+        return minQueueCapacity;
     }
 
     public long getCompletedTaskCount() {
@@ -96,7 +102,7 @@ public class Statistics {
 
     @Override
     public String toString() {
-        return "Statistics{" + "pipelineName=" + pipelineName + ", remainingQueueCapacity=" + remainingQueueCapacity + ", completedTaskCount=" + completedTaskCount + ", activeThreadCount=" + activeThreadCount + ", largestThreadPoolSize=" + largestThreadPoolSize + ", currentThreadPoolSize=" + currentThreadPoolSize + ", totalNumberOfTasks=" + totalNumberOfTasks + ", maximumPoolSize=" + maximumPoolSize + ", rejectedExecutionHandlerName=" + rejectedExecutionHandlerName + ", rejectedTasks=" + rejectedTasks + ", corePoolSize=" + corePoolSize + '}';
+        return "Statistics{" + "pipelineName=" + pipelineName + ", remainingQueueCapacity=" + remainingQueueCapacity + ", minQueueCapacity=" + minQueueCapacity + ", completedTaskCount=" + completedTaskCount + ", activeThreadCount=" + activeThreadCount + ", largestThreadPoolSize=" + largestThreadPoolSize + ", currentThreadPoolSize=" + currentThreadPoolSize + ", totalNumberOfTasks=" + totalNumberOfTasks + ", maximumPoolSize=" + maximumPoolSize + ", rejectedExecutionHandlerName=" + rejectedExecutionHandlerName + ", rejectedTasks=" + rejectedTasks + ", corePoolSize=" + corePoolSize + '}';
     }
 
 }

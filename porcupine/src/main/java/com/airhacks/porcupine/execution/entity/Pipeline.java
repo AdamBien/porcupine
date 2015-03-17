@@ -15,6 +15,7 @@
  */
 package com.airhacks.porcupine.execution.entity;
 
+import com.airhacks.porcupine.execution.control.InstrumentedThreadPoolExecutor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -29,10 +30,10 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Pipeline {
 
     private final String pipelineName;
-    private final ThreadPoolExecutor tpe;
+    private final InstrumentedThreadPoolExecutor tpe;
     private final AtomicLong rejectedTasks;
 
-    public Pipeline(String pipelineName, ThreadPoolExecutor tpe) {
+    public Pipeline(String pipelineName, InstrumentedThreadPoolExecutor tpe) {
         this.pipelineName = pipelineName;
         this.tpe = tpe;
         this.rejectedTasks = new AtomicLong();
@@ -40,6 +41,7 @@ public class Pipeline {
 
     public Statistics getStatistics() {
         int remainingQueueCapacity = this.tpe.getQueue().remainingCapacity();
+        int minQueueCapacity = this.tpe.getMinRemainingQueueCapacity();
         int corePoolSize = this.tpe.getCorePoolSize();
         long completedTaskCount = this.tpe.getCompletedTaskCount();
         int activeThreadCount = this.tpe.getActiveCount();
@@ -52,7 +54,7 @@ public class Pipeline {
         if (handler != null) {
             rejectedExecutionHandlerName = handler.getClass().getSimpleName();
         }
-        return new Statistics(this.pipelineName, remainingQueueCapacity, completedTaskCount, activeThreadCount, corePoolSize, largestThreadPoolSize, currentThreadPoolSize, totalNumberOfTasks, maximumPoolSize, rejectedExecutionHandlerName, this.rejectedTasks.get());
+        return new Statistics(this.pipelineName, remainingQueueCapacity, minQueueCapacity, completedTaskCount, activeThreadCount, corePoolSize, largestThreadPoolSize, currentThreadPoolSize, totalNumberOfTasks, maximumPoolSize, rejectedExecutionHandlerName, this.rejectedTasks.get());
 
     }
 

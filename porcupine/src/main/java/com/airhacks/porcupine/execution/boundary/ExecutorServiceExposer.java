@@ -2,6 +2,7 @@ package com.airhacks.porcupine.execution.boundary;
 
 import com.airhacks.porcupine.configuration.control.ExecutorConfigurator;
 import com.airhacks.porcupine.execution.control.ExecutorConfiguration;
+import com.airhacks.porcupine.execution.control.InstrumentedThreadPoolExecutor;
 import com.airhacks.porcupine.execution.control.PipelineStore;
 import com.airhacks.porcupine.execution.entity.Pipeline;
 import com.airhacks.porcupine.execution.entity.Rejection;
@@ -63,12 +64,12 @@ public class ExecutorServiceExposer {
         if (rejectedExecutionHandler == null) {
             rejectedExecutionHandler = this::onRejectedExecution;
         }
-        ThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config, rejectedExecutionHandler);
+        InstrumentedThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config, rejectedExecutionHandler);
         this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
     }
 
-    ThreadPoolExecutor createThreadPoolExecutor(ExecutorConfiguration config, RejectedExecutionHandler rejectedExecutionHandler) {
+    InstrumentedThreadPoolExecutor createThreadPoolExecutor(ExecutorConfiguration config, RejectedExecutionHandler rejectedExecutionHandler) {
         int corePoolSize = config.getCorePoolSize();
         int keepAliveTime = config.getKeepAliveTime();
         int maxPoolSize = config.getMaxPoolSize();
@@ -79,7 +80,7 @@ public class ExecutorServiceExposer {
         } else {
             queue = new SynchronousQueue<>();
         }
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+        InstrumentedThreadPoolExecutor threadPoolExecutor = new InstrumentedThreadPoolExecutor(
                 corePoolSize, maxPoolSize, keepAliveTime,
                 TimeUnit.SECONDS, queue, threadFactory,
                 rejectedExecutionHandler);
