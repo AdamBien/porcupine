@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.airhacks</groupId>
     <artifactId>porcupine-sample</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>war</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.airhacks</groupId>
-            <artifactId>porcupine</artifactId>
-            <version>0.0.3</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>porcupine-spy</artifactId>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
