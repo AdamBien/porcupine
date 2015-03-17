@@ -49,7 +49,10 @@ public class HttpHeaderStatisticInjector implements WriterInterceptor {
     public String serializeStatistics(Statistics statistics) {
         JsonObjectBuilder stats = Json.createObjectBuilder();
         stats.add("pipelineName", statistics.getPipelineName());
-        stats.add("rejectedExecutionHandlerName", statistics.getRejectedExecutionHandlerName());
+        final String handlerName = statistics.getRejectedExecutionHandlerName();
+        if (handlerName != null) {
+            stats.add("rejectedExecutionHandlerName", handlerName);
+        }
         stats.add("activeThreadCount", statistics.getActiveThreadCount());
         stats.add("completedTaskCount", statistics.getCompletedTaskCount());
         stats.add("corePoolSize", statistics.getCorePoolSize());

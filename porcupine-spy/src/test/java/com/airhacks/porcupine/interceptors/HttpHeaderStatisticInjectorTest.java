@@ -40,4 +40,11 @@ public class HttpHeaderStatisticInjectorTest {
         assertNotNull(result);
     }
 
+    @Test
+    public void serializeStatisticsWithoutHandler() {
+        Statistics stats = new Statistics("test", 0, 1, 2, 3, 4, 5, 6, 7, null, 8);
+        String result = this.cut.serializeStatistics(stats);
+        assertNotNull(result);
+    }
+
 }
