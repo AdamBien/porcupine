@@ -164,3 +164,27 @@ public class CustomExecutorConfigurator extends ExecutorConfigurator {
 
 }
 ```
+
+## Statistics Injection into HTTP Headers
+
+```
+HTTP/1.1 200 OK
+Server: GlassFish Server Open Source Edition  4.1 
+X-Powered-By: Servlet/3.1 JSP/2.3 (GlassFish Server Open Source Edition  4.1  Java/Oracle Corporation/1.8)
+```
+```json
+x-porcupine-statistics-light: {"pipelineName":"light","activeThreadCount":1,"completedTaskCount":1,
+"corePoolSize":8,"currentThreadPoolSize":2,"largestThreadPoolSize":2,"maximumPoolSize":16,"rejectedTasks":0,
+"remainingQueueCapacity":100,"minQueueCapacity":100,"totalNumberOfTasks":2}
+x-porcupine-statistics-heavy: {"pipelineName":"heavy","rejectedExecutionHandlerName":"CallerRunsPolicy",
+"activeThreadCount":0,"completedTaskCount":1,"corePoolSize":4,"currentThreadPoolSize":1,
+"largestThreadPoolSize":1,"maximumPoolSize":8,"rejectedTasks":0,"remainingQueueCapacity":16,
+"minQueueCapacity":16,"totalNumberOfTasks":1}
+```
+```
+Content-Type: text/plain
+Date: Wed, 18 Mar 2015 07:50:20 GMT
+Content-Length: 36
+```
+
+
