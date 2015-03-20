@@ -15,7 +15,11 @@ Features:
 ### Configuration
 [![Configuration](https://i.ytimg.com/vi/4M1EJntwjk8/mqdefault.jpg)](https://www.youtube.com/embed/4M1EJntwjk8?rel=0)
 ### Dealing with Overload
-[![Configuration](https://i.ytimg.com/vi/HToJuV28pPI/mqdefault.jpg)](https://www.youtube.com/embed/HToJuV28pPI?rel=0)
+[![Overload](https://i.ytimg.com/vi/HToJuV28pPI/mqdefault.jpg)](https://www.youtube.com/embed/HToJuV28pPI?rel=0)
+
+### Automatic Statistics Injection
+[![Overload](https://i.ytimg.com/vi/0slZph_LC0A/mqdefault.jpg)](https://www.youtube.com/embed/0slZph_LC0A?rel=0)
+
 ##Installation
 
 ```
