@@ -1,5 +1,5 @@
 # porcupine
-Configurable threading, resiliency and monitoring with injectable statistics for Java EE 7. Porcupine is the implementation of the [bulkhead](https://johnragan.wordpress.com/2009/12/08/release-it-stability-patterns-and-best-practices/) pattern for Java EE 7.
+Configurable threading, resiliency and monitoring with injectable statistics for Java EE 7. Porcupine is the implementation of the [bulkhead](https://johnragan.wordpress.com/2009/12/08/release-it-stability-patterns-and-best-practices/) and [handshaking](https://johnragan.wordpress.com/2009/12/08/release-it-stability-patterns-and-best-practices/) patterns for Java EE 7.
 
 Features:
 
