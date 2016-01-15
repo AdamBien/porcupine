@@ -31,7 +31,7 @@ public class RejectionsNotifier {
     public void onNewRejection(@Observes Rejection rejectedTask) {
         String msg = "Server overloaded, task: " + rejectedTask.getTaskClass() + " is rejected!";
         if (this.session != null && this.session.isOpen()) {
-            this.session.getAsyncRemote().sendText("msg");
+            this.session.getAsyncRemote().sendText(msg);
         }
     }
 
