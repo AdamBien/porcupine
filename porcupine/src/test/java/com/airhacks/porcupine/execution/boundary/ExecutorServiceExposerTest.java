@@ -36,7 +36,6 @@ import javax.inject.Inject;
 import static org.hamcrest.CoreMatchers.is;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import static org.junit.Assert.assertNotNull;
@@ -63,7 +62,7 @@ public class ExecutorServiceExposerTest {
     PipelineStore ps;
 
     @Deployment
-    public static Archive create() {
+    public static WebArchive create() {
         return ShrinkWrap.create(WebArchive.class).
                 addClasses(ManagedThreadFactoryExposerMock.class,
                         ExecutorServiceInjectionTarget.class,
