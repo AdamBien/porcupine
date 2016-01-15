@@ -1,6 +1,6 @@
 package com.airhacks.threading.messages.control;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class MessageReceiver {
 
     public String receiveLightMessage() {
-        return "Message " + new Date();
+        return "Light Message " + Instant.now();
     }
 
     public String receiveHeavyMessage() {
@@ -20,6 +20,6 @@ public class MessageReceiver {
         } catch (InterruptedException ex) {
             Logger.getLogger(MessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "Message " + new Date();
+        return "Heavy Message " + Instant.now();
     }
 }

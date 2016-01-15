@@ -6,3 +6,8 @@ pom.xml.next
 release.properties
 *.sh
 nb-configuration.xml
+.classpath
+.factorypath
+.project
+.settings/
+.DS_Store

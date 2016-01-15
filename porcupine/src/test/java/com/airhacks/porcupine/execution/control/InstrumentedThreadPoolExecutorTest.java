@@ -30,16 +30,16 @@ import org.junit.Test;
  * @author airhacks.com
  */
 public class InstrumentedThreadPoolExecutorTest {
-
+    private static final int QUEUE_CAPACITY = 5;
+    
     InstrumentedThreadPoolExecutor cut;
 
     @Before
     public void init() {
-        ArrayBlockingQueue queue = new ArrayBlockingQueue(QUEUE_CAPACITY);
+        ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(QUEUE_CAPACITY);
         ThreadFactory factory = (r) -> new Thread(r);
         this.cut = new InstrumentedThreadPoolExecutor(1, 1, 10, TimeUnit.SECONDS, queue, factory, new InstrumentedThreadPoolExecutor.CallerRunsPolicy());
     }
-    static final int QUEUE_CAPACITY = 5;
 
     @Test
     public void minRemainingQueueCapacity() throws InterruptedException, ExecutionException {
