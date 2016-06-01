@@ -15,14 +15,21 @@
  */
 package com.airhacks.porcupine.execution.control;
 
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  *
  * @author airhacks.com
  */
 public class ExecutorConfigurationTest {
+
+    @Rule
+    public ExpectedException expected = ExpectedException.none();
 
     @Test
     public void policyAndQueueSet() {
@@ -31,6 +38,35 @@ public class ExecutorConfigurationTest {
                 queueCapacity(6).
                 build();
         assertNotNull(cut);
+    }
+
+    @Test
+    public void negativeQueueSizeTest() {
+        expected.expect(IllegalStateException.class);
+        expected.expectMessage(both(containsString("queue")).and(containsString("should be > 0")));
+        new ExecutorConfiguration.Builder().
+                queueCapacity(-1).
+                build();
+    }
+
+    @Test
+    public void negativeKeepAliveTime() {
+        expected.expect(IllegalStateException.class);
+        expected.expectMessage(both(containsString("keepAliveTime")).and(containsString("should be > 0")));
+        new ExecutorConfiguration.Builder().
+                keepAliveTime(-1).
+                build();
+    }
+
+    @Test
+    public void corePoolSizeLargerThanMaxPoolsize() {
+        expected.expect(IllegalStateException.class);
+        expected.expectMessage(both(containsString("corePoolSize")).and(containsString("maxPoolSize")));
+
+        new ExecutorConfiguration.Builder().
+                corePoolSize(2).
+                maxPoolSize(1).
+                build();
     }
 
 }

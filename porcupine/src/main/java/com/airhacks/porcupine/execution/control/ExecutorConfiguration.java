@@ -91,7 +91,21 @@ public class ExecutorConfiguration {
             return this;
         }
 
+        void validateConfiguration() {
+            if (this.configuration.keepAliveTime < 0) {
+                throw new IllegalStateException("keepAliveTime is: " + this.configuration.keepAliveTime + " but should be > 0");
+            }
+
+            if (this.configuration.queueCapacity < 0) {
+                throw new IllegalStateException("queueCapacity is: " + this.configuration.queueCapacity + " but should be > 0");
+            }
+            if (this.configuration.corePoolSize > this.configuration.maxPoolSize) {
+                throw new IllegalStateException("corePoolSize(" + this.configuration.corePoolSize + ") is larger than maxPoolSize(" + this.configuration.maxPoolSize + ")");
+            }
+        }
+
         public ExecutorConfiguration build() {
+            validateConfiguration();
             return configuration;
 
         }
