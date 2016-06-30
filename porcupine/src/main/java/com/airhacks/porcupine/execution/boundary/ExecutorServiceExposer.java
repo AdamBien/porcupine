@@ -46,8 +46,7 @@ public class ExecutorServiceExposer {
     ExecutorConfigurator ec;
 
     public void onRejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        Pipeline pipeline = findPipeline(executor);
-        pipeline.taskRejected();
+        Pipeline pipeline = this.ps.findPipeline(executor);
         this.rejections.fire(new Rejection(pipeline.getStatistics(), r.getClass().getName()));
     }
 
@@ -64,7 +63,8 @@ public class ExecutorServiceExposer {
         if (rejectedExecutionHandler == null) {
             rejectedExecutionHandler = this::onRejectedExecution;
         }
-        InstrumentedThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config, rejectedExecutionHandler);
+        RejectionsCounter counter = new RejectionsCounter(rejectedExecutionHandler, this.ps);
+        InstrumentedThreadPoolExecutor threadPoolExecutor = createThreadPoolExecutor(config, counter);
         this.ps.put(pipelineName, new Pipeline(pipelineName, threadPoolExecutor));
         return threadPoolExecutor;
     }
@@ -111,7 +111,4 @@ public class ExecutorServiceExposer {
         return name;
     }
 
-    Pipeline findPipeline(ThreadPoolExecutor executor) {
-        return this.ps.pipelines().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
-    }
 }

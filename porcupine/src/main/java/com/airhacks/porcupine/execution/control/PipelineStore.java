@@ -20,6 +20,7 @@ import com.airhacks.porcupine.execution.entity.Statistics;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -74,6 +75,10 @@ public class PipelineStore {
 
     public void clear() {
         this.pipelines.clear();
+    }
+
+    public Pipeline findPipeline(ThreadPoolExecutor executor) {
+        return this.pipelines().stream().filter((p) -> p.manages(executor)).findFirst().orElse(null);
     }
 
     @PreDestroy
