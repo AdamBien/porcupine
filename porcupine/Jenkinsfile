@@ -1,0 +1,12 @@
+node {
+   def mvnHome = tool 'M3'    
+   stage 'Clone'
+   git url: 'http://github.com/AdamBien/porcupine'
+   
+   stage 'Unit Tests'
+   sh "${mvnHome}/bin/mvn package"
+
+   stage 'Integration Tests'
+   sh "${mvnHome}/bin/mvn failsafe:integration-test"
+   
+}
